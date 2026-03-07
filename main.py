@@ -14,12 +14,18 @@ def cmd_list(store: ProfileStore):
         print(f'{name} - {data}')
 
 
-def cmd_apply(adapter_name: str, profile_name: str, store: ProfileStore, adapter_applier: AdapterApplier):
+def cmd_apply(adapter_name: str, profile_name: str, store: ProfileStore, applier: AdapterApplier):
     profile = store.get_profile(profile_name)
     if profile is None:
         logger.error(f'Профиль "{profile_name}" не найден')
         sys.exit(1)
-    adapter_applier.apply_profile(adapter_name, profile)
+
+    adapter = adapter_name or profile.get('adapter')  # ← из аргумента или из профиля
+    if not adapter:
+        print('Адаптер не указан')
+        sys.exit(1)
+
+    applier.apply_profile(adapter, profile)
 
 def main():
     parser = argparse.ArgumentParser(description='netsnap — смена сетевых профилей')
@@ -31,7 +37,7 @@ def main():
     # команда: python main.py apply work --adapter "Беспроводная сеть"
     p_apply = sub.add_parser('apply', help='Применить профиль')
     p_apply.add_argument('name', help='Имя профиля')
-    p_apply.add_argument('--adapter', required=True, help='Имя адаптера')
+    p_apply.add_argument('--adapter', default=None, help='Имя адаптера')
 
     args = parser.parse_args()
     store = ProfileStore()
