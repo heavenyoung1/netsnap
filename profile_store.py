@@ -3,7 +3,7 @@ import json
 
 
 
-class ProfiltStore:
+class ProfileStore:
     '''
     Простое хранилище профилей на основе JSON-файла.
 
@@ -19,7 +19,7 @@ class ProfiltStore:
         'adapter': 'Wi-Fi',
         'dhcp': false,
         'ip': '10.157.1.227',
-        'mask': '255.255.255.0',
+        'subnet': '255.255.255.0',
         'gateway': '10.157.1.1',
         'dns1': '10.157.100.7',
         'dns2': '10.155.10.6'
@@ -37,14 +37,14 @@ class ProfiltStore:
     def _load(self):
         '''Читаем JSON-файл с диска. Если файла нет — возвращаем пустой словарь.'''
         if os.path.exists(self.filepath):
-            with open (self.filepath, enconding='utf-8') as file:
+            with open (self.filepath, encoding='utf-8') as file:
                 return json.load(file)
             
         return {}
     
     def _save(self):
        '''Сохраняем текущий словарь профилей обратно в JSON-файл.''' 
-       with open (self.filepath, 'w' ,enconding='utf-8') as file:
+       with open (self.filepath, 'w', encoding='utf-8') as file:
             # indent=2        — красивое форматирование с отступами
             # ensure_ascii=False — кириллица сохраняется как есть, не в \uXXXX
            json.dump(self._data, file, ensure_ascii=False, indent=2)
@@ -72,7 +72,7 @@ class ProfiltStore:
         '''
         if name in self._data:
             del self._data[name]
-            self._save
+            self._save()
             return True
         return False
     

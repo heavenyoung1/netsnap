@@ -6,9 +6,9 @@ from logger import logger
 class AdapterInfo(NamedTuple):
     name: str
     dhcp_enabled: bool
-    ip_address_v4: str
-    ip_subnet: str
-    ip_gateway: str | None
+    ip: str
+    subnet: str
+    gateway: str | None
     dns_enabled: bool
     dns_servers: list[str] | None
 
@@ -27,9 +27,9 @@ class AdapterManager:
             adapter.Description: AdapterInfo(
                 name=adapter.Description,
                 dhcp_enabled=adapter.DHCPEnabled,
-                ip_address_v4=adapter.IPAddress[0],
-                ip_subnet=adapter.IPSubnet[0],
-                ip_gateway=adapter.DefaultIPGateway[0] or None,
+                ip=adapter.IPAddress[0],
+                subnet=adapter.IPSubnet[0],
+                gateway=adapter.DefaultIPGateway[0] if adapter.DefaultIPGateway else None,
                 dns_enabled=adapter.DNSServerSearchOrder is not None,
                 dns_servers=adapter.DNSServerSearchOrder,
             )
