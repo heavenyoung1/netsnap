@@ -3,6 +3,7 @@ from typing import NamedTuple
 
 from logger import logger
 
+
 class AdapterInfo(NamedTuple):
     name: str
     dhcp_enabled: bool
@@ -11,6 +12,7 @@ class AdapterInfo(NamedTuple):
     gateway: str | None
     dns_enabled: bool
     dns_servers: list[str] | None
+
 
 class AdapterManager:
     def __init__(self):
@@ -26,7 +28,9 @@ class AdapterManager:
                 dhcp_enabled=adapter.DHCPEnabled,
                 ip=adapter.IPAddress[0],
                 subnet=adapter.IPSubnet[0],
-                gateway=adapter.DefaultIPGateway[0] if adapter.DefaultIPGateway else None,
+                gateway=(
+                    adapter.DefaultIPGateway[0] if adapter.DefaultIPGateway else None
+                ),
                 dns_enabled=adapter.DNSServerSearchOrder is not None,
                 dns_servers=adapter.DNSServerSearchOrder,
             )

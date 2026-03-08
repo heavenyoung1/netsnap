@@ -1,6 +1,7 @@
 import logging
 from pathlib import Path
 
+
 def get_logger(name: str, log_file: str = 'app.log') -> logging.Logger:
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
@@ -11,7 +12,9 @@ def get_logger(name: str, log_file: str = 'app.log') -> logging.Logger:
     console.setFormatter(fmt)
     logger.addHandler(console)
 
-    log_path = Path('/app/logs') / log_file if Path('/app/logs').is_dir() else Path(log_file)
+    log_path = (
+        Path('/app/logs') / log_file if Path('/app/logs').is_dir() else Path(log_file)
+    )
     try:
         file = logging.FileHandler(log_path, encoding='utf-8')
         file.setFormatter(fmt)
@@ -20,5 +23,6 @@ def get_logger(name: str, log_file: str = 'app.log') -> logging.Logger:
         pass
 
     return logger
+
 
 logger = get_logger('App')

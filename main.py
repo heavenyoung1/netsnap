@@ -4,6 +4,7 @@ import sys
 from profile_store import ProfileStore
 from adapter_applier import AdapterApplier
 
+
 def cmd_list(store: ProfileStore):
     profiles = store.list_profiles()
     if not profiles:
@@ -13,7 +14,9 @@ def cmd_list(store: ProfileStore):
         print(f'{name} - {data}')
 
 
-def cmd_apply(adapter_name: str, profile_name: str, store: ProfileStore, applier: AdapterApplier):
+def cmd_apply(
+    adapter_name: str, profile_name: str, store: ProfileStore, applier: AdapterApplier
+):
     profile = store.get_profile(profile_name)
     if profile is None:
         print(f'Profile {profile_name} was not found')
@@ -35,6 +38,7 @@ def cmd_delete(profile_name: str, store: ProfileStore):
     else:
         print(f'Profile {profile_name} was not found')
         sys.exit(1)
+
 
 def main():
     parser = argparse.ArgumentParser(description='netsnap - switching network profiles')
@@ -64,6 +68,7 @@ def main():
         cmd_delete(args.name, store)
     else:
         parser.print_help()
+
 
 if __name__ == '__main__':
     main()

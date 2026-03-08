@@ -4,6 +4,7 @@ import json
 # Folder where profile_store.py lives
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+
 class ProfileStore:
     '''
     A simple profile storage backed by a JSON file.
@@ -37,7 +38,7 @@ class ProfileStore:
     def _load(self):
         '''Read the JSON file from disk. If the file doesn't exist, return an empty dict.'''
         if os.path.exists(self.filepath):
-            with open (self.filepath, encoding='utf-8') as file:
+            with open(self.filepath, encoding='utf-8') as file:
                 return json.load(file)
 
         return {}
