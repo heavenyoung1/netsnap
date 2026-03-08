@@ -10,8 +10,21 @@ def cmd_list(store: ProfileStore):
     if not profiles:
         print('No saved profiles')
         return
+
+    # Head Table
+    print(f'{"NAME":<20} {"ADAPTER":<25} {"TYPE":<8} {"IP"}')
+    print('-' * 65)
+
     for name, data in profiles.items():
-        print(f'{name} - {data}')
+        adapter = data.get('adapter', '-')
+        if data.get('dhcp'):
+            type_ = 'DHCP'
+            ip = '-'
+        else:
+            type_ = 'static'
+            ip = data.get('ip', '-')
+        # print(f'{name} - {data}')
+        print(f'{name: <20} {adapter: <25} {type_: <8} {ip}')
 
 
 def cmd_apply(
