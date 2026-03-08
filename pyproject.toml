@@ -1,6 +1,6 @@
 [project]
 name = "netsnap"
-version = "0.1.0"
+version = "0.3.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
@@ -15,5 +15,12 @@ netsnap = "main:main"
 [tool.black]
 skip-string-normalization = true
 
+[tool.uv]
+package = true
+
 [tool.setuptools]
 py-modules = ["main", "adapter_applier", "adapter_wmi", "profile_store", "logger"]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"

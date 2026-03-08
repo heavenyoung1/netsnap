@@ -75,7 +75,7 @@ def cmd_apply(
         sys.exit(1)
 
     applier.apply_profile(adapter, profile)
-    print(f'Adapter {profile_name} successfully set')
+    print(f'Profile "{profile_name}" to "{adapter}" successfully set')
 
 
 def cmd_delete(profile_name: str, store: ProfileStore):

@@ -26,7 +26,7 @@ That's 7 clicks and 30 seconds. Every. Single. Time.
 Store your network configurations as named profiles in a JSON file.
 Switch between them with one command from anywhere on your machine:
 
-```bash
+```powershell
 netsnap apply work
 netsnap apply home
 netsnap apply plc_station1
@@ -42,30 +42,30 @@ netsnap apply plc_station1
 ## Installation
 
 **1. Clone the repository:**
-```bash
-https://github.com/heavenyoung1/netsnap
+```powershell
+git clone https://github.com/heavenyoung1/netsnap
 cd netsnap
 ```
 
 **2. Create virtual environment and install dependencies:**
-```bash
+```powershell
 uv sync
 ```
 
 **3. Install the `netsnap` command globally:**
-```bash
+```powershell
 uv pip install -e .
 ```
 
 **4. Create your profiles file from the template:**
-```bash
-cp profiles.example.json profiles.json
+```powershell
+Copy-Item profiles.example.json profiles.json
 ```
 
 Open `profiles.json` and fill in your actual network settings.
 
 **5. Verify the installation:**
-```bash
+```powershell
 netsnap list
 ```
 
@@ -73,7 +73,7 @@ netsnap list
 
 > ⚠️ Run PowerShell or CMD **as Administrator** when applying profiles.
 
-```bash
+```powershell
 # Show all saved profiles
 netsnap list
 
