@@ -1,5 +1,8 @@
 # netsnap
 
+![Python](https://img.shields.io/badge/python-3.14+-blue?logo=python&logoColor=white)
+![License](https://img.shields.io/badge/license-MIT-green)
+
 A lightweight CLI utility for quickly switching network configurations on Windows.
 No GUI, no bloat — just one command.
 
@@ -32,7 +35,7 @@ netsnap apply plc_station1
 ## Requirements
 
 - Windows 10/11
-- Python 3.10+
+- Python 3.14
 - [uv](https://github.com/astral-sh/uv) package manager
 - Administrator privileges (required to change network settings)
 
@@ -167,6 +170,16 @@ No external dependencies for applying profiles — only Python stdlib + system `
 - Linux support via `nmcli`
 - Tray icon for one-click switching
 
-## License
+## Contributing
 
-MIT
+Contributions are welcome! Here's how to get started:
+
+1. Fork the repository
+2. Create a branch for your feature or fix: `git checkout -b my-feature`
+3. Make your changes and commit them: `git commit -m "Add my feature"`
+4. Push to your fork: `git push origin my-feature`
+5. Open a Pull Request
+
+If you have an idea but don't want to code it yourself, feel free to open an Issue — even a short description helps.
+
+Please keep pull requests focused: one feature or fix per PR.
