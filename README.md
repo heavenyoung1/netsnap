@@ -1,3 +1,7 @@
+![GitHub issues](https://img.shields.io/github/issues/netsnap)
+![GitHub stars](https://img.shields.io/github/stars/netsnap)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
 # netsnap
 
 A lightweight CLI utility for quickly switching network configurations on Windows.
@@ -170,3 +174,13 @@ No external dependencies for applying profiles — only Python stdlib + system `
 ## License
 
 MIT
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
