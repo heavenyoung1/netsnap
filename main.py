@@ -27,6 +27,15 @@ def cmd_apply(adapter_name: str, profile_name: str, store: ProfileStore, applier
 
     applier.apply_profile(adapter, profile)
 
+
+def cmd_delete(profile_name: str, store: ProfileStore):
+    """Delete a profile by name."""
+    if store.delete_profile(profile_name):
+        logger.info(f'Профиль "{profile_name}" удалён')
+    else:
+        logger.error(f'Профиль "{profile_name}" не найден')
+        sys.exit(1)
+
 def main():
     parser = argparse.ArgumentParser(description='netsnap — смена сетевых профилей')
     sub = parser.add_subparsers(dest='command')
@@ -39,6 +48,10 @@ def main():
     p_apply.add_argument('name', help='Имя профиля')
     p_apply.add_argument('--adapter', default=None, help='Имя адаптера')
 
+    # команда: python main.py delete work
+    p_delete = sub.add_parser('delete', help='Удалить профиль')
+    p_delete.add_argument('name', help='Имя профиля для удаления')
+
     args = parser.parse_args()
     store = ProfileStore()
     applier = AdapterApplier()
@@ -47,6 +60,8 @@ def main():
         cmd_list(store)
     elif args.command == 'apply':
         cmd_apply(args.adapter, args.name, store, applier)
+    elif args.command == 'delete':
+        cmd_delete(args.name, store)
     else:
         parser.print_help()
 
