@@ -17,7 +17,7 @@ class AdapterManager:
         self._wmi = wmi.WMI()
 
     def get_adapters(self) -> dict[str, AdapterInfo]:
-        '''Возвращает активные сетевые адаптеры с их конфигурацией.'''
+        '''Returns all active network adapters with their current settings.'''
         net_adapters = self._wmi.Win32_NetworkAdapterConfiguration
 
         output = {

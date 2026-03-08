@@ -4,16 +4,16 @@ class AdapterApplier:
 
     def _run(self, cmd: str):
         '''
-        Выполнить команду в cmd и вернуть её вывод как строку.
+        Run a command in cmd and return its output as a string.
 
-        encoding="cp866" — кодировка Windows-консоли в России (она же OEM 866).
-        Без неё кириллица в выводе netsh превращается в кракозябры.
-        errors="replace" — если символ не распознан, подставить '?' вместо краша.
+        encoding="cp866" — the Windows console encoding used in Russian locale (OEM 866).
+        Without it, Cyrillic characters in netsh output turn into garbage.
+        errors="replace" — if a character can't be decoded, put "?" instead of crashing.
         '''
         result = subprocess.run(
             cmd,
             shell=True,
-            capture_output=True, # перехватываем stdout и stderr
+            capture_output=True, # capture both stdout and stderr
             text=True,
             encoding='cp866',
             errors='replace',
@@ -22,8 +22,8 @@ class AdapterApplier:
 
     def apply_profile(self, adapter_name: str, profile: dict):
         '''
-        Применить профиль к адаптеру.
-        Определяет тип профиля (DHCP или статика) и вызывает нужные netsh-команды.
+        Apply a profile to the adapter.
+        Checks whether the profile is DHCP or static, then runs the right netsh commands.
         '''
         if profile.get('dhcp'):
             self._set_dhcp_ip(adapter_name)
@@ -51,15 +51,15 @@ class AdapterApplier:
 
     def _set_static_dns(self, adapter: str, dns1: str, dns2: str | None = None):
         '''
-        Задать статические DNS-серверы.
-        Сначала устанавливаем основной (index=1), потом добавляем альтернативный (index=2).
+        Set static DNS servers.
+        First set the primary DNS (index=1), then add the secondary one (index=2).
         '''
-        # set dns — заменяет весь список DNS (сбрасывает старые записи)
+        # "set dns" replaces the whole DNS list (clears old entries)
         self._run(
             f'netsh interface ip set dns name="{adapter}" static {dns1}'
         )
         if dns2:
-            # add dns — добавляет второй DNS не трогая первый
+            # "add dns" adds a second DNS without touching the first one
             self._run(
                 f'netsh interface ip add dns name="{adapter}" {dns2} index=2'
             )

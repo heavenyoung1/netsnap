@@ -1,21 +1,21 @@
 import os
 import json
 
-# Папка где лежит profile_store.py
+# Folder where profile_store.py lives
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class ProfileStore:
     '''
-    Простое хранилище профилей на основе JSON-файла.
+    A simple profile storage backed by a JSON file.
 
-    Профиль — это словарь с настройками сети.
-    Пример DHCP-профиля (дом):
+    A profile is a dict with network settings.
+    Example DHCP profile (home):
     {
         'adapter': 'Wi-Fi',
         'dhcp': true
     }
 
-    Пример статического профиля (работа):
+    Example static IP profile (work):
     {
         'adapter': 'Wi-Fi',
         'dhcp': false,
@@ -28,45 +28,45 @@ class ProfileStore:
     '''
 
     def __init__(self, filepath: str = None):
-        # Путь к файлу с профилями (по умолчанию рядом со скриптом)
+        # Path to the profiles file (defaults to the same folder as this script)
         self.filepath = filepath or os.path.join(BASE_DIR, 'profiles.json')
-        # Загружаем профили из файла при старте.
-        # Если файла ещё нет — начинаем с пустого словаря.
+        # Load profiles from disk on startup.
+        # If the file doesn't exist yet, start with an empty dict.
         self._data: dict = self._load()
 
     def _load(self):
-        '''Читаем JSON-файл с диска. Если файла нет — возвращаем пустой словарь.'''
+        '''Read the JSON file from disk. If the file doesn't exist, return an empty dict.'''
         if os.path.exists(self.filepath):
             with open (self.filepath, encoding='utf-8') as file:
                 return json.load(file)
-            
+
         return {}
-    
+
     def _save(self):
-        '''Сохраняем текущий словарь профилей обратно в JSON-файл.'''
+        '''Write the current profiles dict back to the JSON file.'''
         with open(self.filepath, 'w', encoding='utf-8') as file:
             json.dump(self._data, file, ensure_ascii=False, indent=2)
 
     def list_profiles(self):
-        '''Вернуть все профили. Используется в команде 'list'.'''
+        '''Return all profiles. Used by the "list" command.'''
         return self._data
-    
+
     def get_profile(self, name):
         '''
-        Получить профиль по имени.
-        Возвращает None если профиль не найден.
+        Get a profile by name.
+        Returns None if the profile is not found.
         '''
         return self._data.get(name)
-    
+
     def save_profile(self, name: str, profile: dict):
-        '''Сохранить профиль под заданным именем и записать на диск.'''
+        '''Save a profile under the given name and write it to disk.'''
         self._data[name] = profile
         self._save()
 
     def delete_profile(self, name: str):
         '''
-        Удалить профиль по имени.
-        Возвращает True если удалён, False если не найден.
+        Delete a profile by name.
+        Returns True if deleted, False if not found.
         '''
         if name in self._data:
             del self._data[name]

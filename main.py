@@ -40,15 +40,15 @@ def main():
     parser = argparse.ArgumentParser(description='netsnap - switching network profiles')
     sub = parser.add_subparsers(dest='command')
 
-    # команда: python main.py list
-    sub.add_parser('list', help='Список профилей')
+    # command: python main.py list
+    sub.add_parser('list', help='List profiles')
 
-    # команда: python main.py apply work --adapter "Беспроводная сеть"
+    # command: python main.py apply work --adapter "Wi-Fi"
     p_apply = sub.add_parser('apply', help='Apply profile')
     p_apply.add_argument('name', help='Name profile')
     p_apply.add_argument('--adapter', default=None, help='Adapter name')
 
-    # команда: python main.py delete work
+    # command: python main.py delete work
     p_delete = sub.add_parser('delete', help='Delete profile')
     p_delete.add_argument('name', help='Profile name for remove')
 
