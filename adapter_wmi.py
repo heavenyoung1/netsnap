@@ -1,8 +1,6 @@
 import wmi
 from typing import NamedTuple
 
-from logger import logger
-
 
 class AdapterInfo(NamedTuple):
     name: str
@@ -40,5 +38,4 @@ class AdapterManager:
 
     def get_adapter_config(self, adapter_name: str) -> AdapterInfo | None:
         output = self.get_adapters().get(adapter_name)
-        logger.info(output)
         return output
