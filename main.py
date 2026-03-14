@@ -42,12 +42,13 @@ def cmd_save(
         print(f'Adapter {adapter_name} not exists')
         sys.exit(1)
 
-    # конвертируем AdapterInfo → dict в нужном формате
+    # Converting AdapterInfo to dict
     profile = {
-        'adapter': adapter_name,
+        'name': exist_adapter.name,
+        'adapter': exist_adapter.adapter,
         'dhcp': exist_adapter.dhcp_enabled,
         'ip': exist_adapter.ip,
-        'mask': exist_adapter.subnet,
+        'subnet': exist_adapter.subnet,
         'gateway': exist_adapter.gateway,
         'dns1': exist_adapter.dns_servers[0] if exist_adapter.dns_servers else None,
         'dns2': (
@@ -60,16 +61,29 @@ def cmd_save(
     store.save_profile(profile_name, profile)
     print(f'Profile {profile_name} saved. Configs - {profile}')
 
+def cmd_show(
+        manager: AdapterManager,
+        adapter_name: str, 
+        ):
+    adapter_config = manager.get_adapter_config(adapter_name)
+    if not adapter_config:
+        print('Not existed adapter name')
+    for key, value in adapter_config._asdict().items():
+        print(f'{key} - {value}')
+    
 
 def cmd_apply(
-    adapter_name: str, profile_name: str, store: ProfileStore, applier: AdapterApplier
+    adapter_name: str, 
+    profile_name: str, 
+    store: ProfileStore, 
+    applier: AdapterApplier,
 ):
     profile = store.get_profile(profile_name)
     if profile is None:
         print(f'Profile {profile_name} was not found')
         sys.exit(1)
 
-    adapter = adapter_name or profile.get('adapter')
+    adapter = profile.get('name')
     if not adapter:
         print('Adapter not specify')
         sys.exit(1)
@@ -86,25 +100,28 @@ def cmd_delete(profile_name: str, store: ProfileStore):
         print(f'Profile {profile_name} was not found')
         sys.exit(1)
 
-
 def main():
     parser = argparse.ArgumentParser(description='netsnap - switching network profiles')
     sub = parser.add_subparsers(dest='command')
 
-    # command: python main.py list
+    # netsnap list
     sub.add_parser('list', help='List profiles')
 
-    # command: python main.py apply work --adapter "Wi-Fi"
+    # netsnap show --adapter 'Wi-Fi'
+    p_show = sub.add_parser('show', help='Show current adapter')
+    p_show.add_argument('--adapter', required=True, help='Adapter name')
+
+    # netsnap apply work --adapter 'Wi-Fi'
     p_apply = sub.add_parser('apply', help='Apply profile')
     p_apply.add_argument('name', help='Name profile')
     p_apply.add_argument('--adapter', default=None, help='Adapter name')
 
-    # command: python main.py save work --adapter "Wi-Fi"
+    # netsnap save work --adapter 'Wi-Fi'
     p_save = sub.add_parser('save', help='Save current configured adapter')
     p_save.add_argument('name', help='Name profile')
     p_save.add_argument('--adapter', required=True, help='Adapter name')
 
-    # command: python main.py delete work
+    # netsnap delete work
     p_delete = sub.add_parser('delete', help='Delete profile')
     p_delete.add_argument('name', help='Profile name for remove')
 
@@ -118,6 +135,9 @@ def main():
 
     elif args.command == 'apply':
         cmd_apply(args.adapter, args.name, store, applier)
+
+    elif args.command == 'show':
+        cmd_show(manager, args.adapter)
 
     elif args.command == 'delete':
         cmd_delete(args.name, store)

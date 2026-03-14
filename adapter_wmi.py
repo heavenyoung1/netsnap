@@ -24,12 +24,12 @@ class AdapterManager:
         adapters = self._wmi.Win32_NetworkAdapter()
 
         name_map = {
-            adapter.Name: adapter.NetConnectionID 
-            for adapter in adapters 
+            adapter.Name: adapter.NetConnectionID
+            for adapter in adapters
             if adapter.NetConnectionID
         }
 
-        output = {} 
+        output = {}
         for adapter_config in adapter_configurations:
             display_name = name_map.get(adapter_config.Description)
             output[display_name] = AdapterInfo(
@@ -39,14 +39,15 @@ class AdapterManager:
                 ip=adapter_config.IPAddress[0],
                 subnet=adapter_config.IPSubnet[0],
                 gateway=(
-                    adapter_config.DefaultIPGateway[0] if adapter_config.DefaultIPGateway else None
+                    adapter_config.DefaultIPGateway[0]
+                    if adapter_config.DefaultIPGateway
+                    else None
                 ),
                 dns_enabled=adapter_config.DNSServerSearchOrder is not None,
                 dns_servers=adapter_config.DNSServerSearchOrder,
             )
 
         return output
-       
 
     def get_adapter_config(self, adapter_name: str) -> AdapterInfo | None:
         output = self.get_adapters().get(adapter_name)

@@ -42,26 +42,39 @@ class AdapterApplier:
                 self._set_static_dns(adapter_name, dns1, dns2)
 
     def _set_static_ip(
-        self, adapter: str, ip_address_v4: str, ip_subnet: str, ip_gateway: str
+        self, 
+        adapter_name: str, 
+        ip_address_v4: str, 
+        ip_subnet: str, 
+        ip_gateway: str,
     ):
         # netsh interface ip set address name="adapter" static ip mask gateway
         self._run(
-            cmd=f'netsh interface ip set address name="{adapter}" static {ip_address_v4} {ip_subnet} {ip_gateway}'
+            cmd=f'netsh interface ip set address name="{adapter_name}" static {ip_address_v4} {ip_subnet} {ip_gateway}'
         )
 
-    def _set_dhcp_ip(self, adapter_name: str):
-        self._run(f'netsh interface ip set address name="{adapter_name}" dhcp')
+    def _set_dhcp_ip(self, adapter: str):
+        self._run(f'netsh interface ip set address name="{adapter}" dhcp')
 
-    def _set_static_dns(self, adapter: str, dns1: str, dns2: str | None = None):
+    def _set_static_dns(
+            self, 
+            adapter_name: str, 
+            dns1: str, 
+            dns2: str | None = None
+            ):
         '''
         Set static DNS servers.
         First set the primary DNS (index=1), then add the secondary one (index=2).
         '''
         # "set dns" replaces the whole DNS list (clears old entries)
-        self._run(f'netsh interface ip set dns name="{adapter}" static {dns1}')
+        self._run(
+            f'netsh interface ip set dns name="{adapter_name}" static {dns1}'
+            )
         if dns2:
             # "add dns" adds a second DNS without touching the first one
-            self._run(f'netsh interface ip add dns name="{adapter}" {dns2} index=2')
+            self._run(f'netsh interface ip add dns name="{adapter_name}" {dns2} index=2')
 
-    def _set_dhcp_dns(self, adapter: str):
-        self._run(cmd=f'netsh interface ip set dns name="{adapter}" dhcp')
+    def _set_dhcp_dns(self, adapter_name: str):
+        self._run(
+            cmd=f'netsh interface ip set dns name="{adapter_name}" dhcp'
+            )

@@ -1,10 +1,11 @@
 {
   "home": {
-    "adapter": "Wi-Fi network",
+    "name": "Wi-Fi network",
     "dhcp": true
   },
   "work": {
-    "adapter": "Wi-Fi network",
+    "name": "Wi-Fi network",
+    "adapter": "Intel(R) Wi-Fi 6 AX201 160MHz",
     "dhcp": false,
     "ip": "192.168.1.1",
     "subnet": "255.255.255.0",
