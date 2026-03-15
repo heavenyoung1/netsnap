@@ -77,6 +77,9 @@ netsnap list
 # Show all saved profiles
 netsnap list
 
+# Show current adapter configuration
+netsnap show --adapter "Wi-Fi network"
+
 # Apply a profile
 netsnap apply home
 netsnap apply work
@@ -95,11 +98,12 @@ Use `profiles.example.json` as a reference:
 ```json
 {
   "home": {
-    "adapter": "Wi-Fi",
+    "name": "Wi-Fi network",
     "dhcp": true
   },
   "work": {
-    "adapter": "Wi-Fi",
+    "name": "Wi-Fi network",
+    "adapter": "Intel(R) Wi-Fi 6 AX201 160MHz",
     "dhcp": false,
     "ip": "x.x.x.x",
     "mask": "255.255.255.0",
@@ -108,7 +112,8 @@ Use `profiles.example.json` as a reference:
     "dns2": "x.x.x.x"
   },
   "plc_station1": {
-    "adapter": "Ethernet",
+    "name": "Ethernet",
+    "adapter": "Intel(R) Ethernet Connection (16) I219-V",
     "dhcp": false,
     "ip": "192.168.1.100",
     "mask": "255.255.255.0",

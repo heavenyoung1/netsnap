@@ -69,11 +69,10 @@ def cmd_show(
     if not adapter_config:
         print('Not existed adapter name')
     for key, value in adapter_config._asdict().items():
-        print(f'{key} - {value}')
+        print(f'{key.capitalize:<15} - {value}')
     
 
 def cmd_apply(
-    adapter_name: str, 
     profile_name: str, 
     store: ProfileStore, 
     applier: AdapterApplier,
@@ -101,7 +100,9 @@ def cmd_delete(profile_name: str, store: ProfileStore):
         sys.exit(1)
 
 def main():
-    parser = argparse.ArgumentParser(description='netsnap - switching network profiles')
+    parser = argparse.ArgumentParser(
+        description='netsnap - switching network profiles'
+        )
     sub = parser.add_subparsers(dest='command')
 
     # netsnap list
