@@ -135,7 +135,7 @@ def main():
         cmd_list(store)
 
     elif args.command == 'apply':
-        cmd_apply(args.adapter, args.name, store, applier)
+        cmd_apply(args.name, store, applier)
 
     elif args.command == 'show':
         cmd_show(manager, args.adapter)
