@@ -6,6 +6,16 @@ from profile_store import ProfileStore
 from adapter_applier import AdapterApplier
 
 
+ADAPTER_COLUMN_WIDTH = 25
+
+
+def _format_adapter(adapter: str | None) -> str:
+    adapter = (adapter or '-').strip() or '-'
+    if len(adapter) <= ADAPTER_COLUMN_WIDTH:
+        return adapter
+    return f'{adapter[: ADAPTER_COLUMN_WIDTH - 3]}...'
+
+
 def cmd_list(store: ProfileStore):
     profiles = store.list_profiles()
     if not profiles:
@@ -13,18 +23,18 @@ def cmd_list(store: ProfileStore):
         return
 
     # Head Table
-    print(f'{"NAME":<20} {"ADAPTER":<25} {"TYPE":<8} {"IP"}')
+    print(f'{"NAME":<20} {"ADAPTER":<{ADAPTER_COLUMN_WIDTH}} {"TYPE":<8} {"IP"}')
     print('-' * 65)
 
     for name, data in profiles.items():
-        adapter = data.get('adapter', '-')
+        adapter = _format_adapter(data.get('adapter'))
         if data.get('dhcp'):
             type_ = 'DHCP'
             ip = '-'
         else:
             type_ = 'static'
             ip = data.get('ip', '-')
-        print(f'{name: <20} {adapter: <25} {type_: <8} {ip}')
+        print(f'{name: <20} {adapter:<{ADAPTER_COLUMN_WIDTH}} {type_: <8} {ip}')
 
 
 def cmd_save(
